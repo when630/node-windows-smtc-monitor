@@ -13,7 +13,7 @@ use windows::{
   Storage::Streams::{Buffer as WinBuffer, DataReader, InputStreamOptions},
 };
 
-use crate::{types::MediaInfo, MediaProps, PlaybackInfo, TimelineProps};
+use crate::{types::MediaInfo, MediaProps, PlaybackCapabilities, PlaybackInfo, TimelineProps};
 
 pub fn win_to_napi_err<T>(result: core::Result<T>) -> Result<T> {
   result.map_err(|e| Error::new(Status::GenericFailure, e.to_string()))
@@ -139,6 +139,28 @@ pub fn get_playback_info_for_session(
   Ok(Some(PlaybackInfo {
     playback_status,
     playback_type,
+  }))
+}
+
+pub fn get_capabilities_for_session(
+  session: &GlobalSystemMediaTransportControlsSession,
+) -> Result<Option<PlaybackCapabilities>> {
+  let playback_info = win_to_napi_err(session.GetPlaybackInfo())?;
+  let controls = win_to_napi_err(playback_info.Controls())?;
+
+  Ok(Some(PlaybackCapabilities {
+    is_play_enabled: controls.IsPlayEnabled().unwrap_or(false),
+    is_pause_enabled: controls.IsPauseEnabled().unwrap_or(false),
+    is_stop_enabled: controls.IsStopEnabled().unwrap_or(false),
+    is_next_enabled: controls.IsNextEnabled().unwrap_or(false),
+    is_previous_enabled: controls.IsPreviousEnabled().unwrap_or(false),
+    is_playback_position_enabled: controls.IsPlaybackPositionEnabled().unwrap_or(false),
+    is_fast_forward_enabled: controls.IsFastForwardEnabled().unwrap_or(false),
+    is_rewind_enabled: controls.IsRewindEnabled().unwrap_or(false),
+    is_play_pause_toggle_enabled: controls.IsPlayPauseToggleEnabled().unwrap_or(false),
+    is_playback_rate_enabled: controls.IsPlaybackRateEnabled().unwrap_or(false),
+    is_shuffle_enabled: controls.IsShuffleEnabled().unwrap_or(false),
+    is_repeat_enabled: controls.IsRepeatEnabled().unwrap_or(false),
   }))
 }
 

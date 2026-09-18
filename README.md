@@ -20,6 +20,7 @@ English | [简体中文](./README_CN.md)
 
 - Listen to media events such as play, pause, next track, previous track.
 - Get the current playback state and track information.
+- Control a session you name: play, pause, next, previous and absolute seek.
 - Support for both JavaScript and TypeScript.
 - Easy to use and integrate into existing Node.js applications.
 
@@ -107,6 +108,42 @@ const session = SMTCMonitor.getMediaSessionByAppId('player.exe'); // MediaInfo |
 //   playback: { ... },
 //   timeline: { ... },
 //   lastUpdatedTime: 1740000000000
+// }
+```
+
+#### Controlling a session
+
+Commands are aimed at one session by its `sourceAppId`, so they land on the player you meant — unlike the keyboard media keys, which always go to whichever session Windows picked. Absolute seeking has no media key at all.
+
+```Typescript
+SMTCMonitor.tryPlay('player.exe');           // boolean
+SMTCMonitor.tryPause('player.exe');          // boolean
+SMTCMonitor.trySkipNext('player.exe');       // boolean
+SMTCMonitor.trySkipPrevious('player.exe');   // boolean
+
+// Absolute seek, in seconds
+SMTCMonitor.tryChangePlaybackPosition('player.exe', 125.5); // boolean
+```
+
+The boolean reports that the request was **accepted**, not that the session already changed state — SMTC applies it a moment later and announces it through `session-playback-changed`. Reading the state back right away can still show the old value. `false` also covers "no session with that id".
+
+Not every player accepts every command. Ask first:
+
+```Typescript
+const caps = SMTCMonitor.getCapabilities('player.exe'); // PlaybackCapabilities | null
+// {
+//   isPlayEnabled: true,
+//   isPauseEnabled: true,
+//   isStopEnabled: false,
+//   isNextEnabled: true,
+//   isPreviousEnabled: true,
+//   isPlaybackPositionEnabled: true,
+//   isFastForwardEnabled: false,
+//   isRewindEnabled: false,
+//   isPlayPauseToggleEnabled: true,
+//   isPlaybackRateEnabled: false,
+//   isShuffleEnabled: false,
+//   isRepeatEnabled: false
 // }
 ```
 

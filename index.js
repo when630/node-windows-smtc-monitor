@@ -6,6 +6,12 @@ const {
   getCurrentSession,
   getSessions,
   getSessionById,
+  tryPlay: _tryPlay,
+  tryPause: _tryPause,
+  trySkipNext: _trySkipNext,
+  trySkipPrevious: _trySkipPrevious,
+  tryChangePlaybackPosition: _tryChangePlaybackPosition,
+  getCapabilities: _getCapabilities,
 } = require("./binding")
 
 class SMTCMonitor extends EventEmitter {
@@ -119,6 +125,40 @@ class SMTCMonitor extends EventEmitter {
 
   static getMediaSessionByAppId(sourceAppId) {
     return getSessionById(sourceAppId)
+  }
+
+  // Transport controls. Each one targets a single session by its AUMID, so the
+  // command lands on the player you meant rather than on whichever session
+  // Windows would have handed the media keys to.
+  //
+  // The return value reports that the request was *accepted*, not that the
+  // session already moved — the state change arrives later through the events.
+  // `false` also covers "no session with that id".
+
+  static tryPlay(sourceAppId) {
+    return _tryPlay(sourceAppId)
+  }
+
+  static tryPause(sourceAppId) {
+    return _tryPause(sourceAppId)
+  }
+
+  static trySkipNext(sourceAppId) {
+    return _trySkipNext(sourceAppId)
+  }
+
+  static trySkipPrevious(sourceAppId) {
+    return _trySkipPrevious(sourceAppId)
+  }
+
+  // Absolute seek, in seconds. Not every player accepts it — ask
+  // getCapabilities().isPlaybackPositionEnabled first.
+  static tryChangePlaybackPosition(sourceAppId, positionSeconds) {
+    return _tryChangePlaybackPosition(sourceAppId, positionSeconds)
+  }
+
+  static getCapabilities(sourceAppId) {
+    return _getCapabilities(sourceAppId)
   }
 
   destroy() {

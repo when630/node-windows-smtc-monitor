@@ -3,6 +3,7 @@ import { SMTCMonitor as SMTC } from "./binding"
 import type {
   MediaInfo,
   MediaProps,
+  PlaybackCapabilities,
   PlaybackInfo,
   TimelineProps,
   MediaPropsCallbackData,
@@ -40,6 +41,21 @@ declare class SMTCMonitor extends EventEmitter {
   static getCurrentMediaSession(): MediaInfo | null
   static getMediaSessionByAppId(sourceAppId: string): MediaInfo | null
 
+  /**
+   * Transport controls, each aimed at one session by its AUMID.
+   *
+   * The boolean reports that the request was accepted, not that the session
+   * already changed state — that arrives later through the events. `false`
+   * also covers "no session with that id".
+   */
+  static tryPlay(sourceAppId: string): boolean
+  static tryPause(sourceAppId: string): boolean
+  static trySkipNext(sourceAppId: string): boolean
+  static trySkipPrevious(sourceAppId: string): boolean
+  /** Absolute seek, in seconds. */
+  static tryChangePlaybackPosition(sourceAppId: string, positionSeconds: number): boolean
+  static getCapabilities(sourceAppId: string): PlaybackCapabilities | null
+
   get sessions(): MediaInfo[]
 
   on(event: "session-media-changed", listener: (sourceAppId: string, mediaProps: MediaProps) => void): this
@@ -52,4 +68,4 @@ declare class SMTCMonitor extends EventEmitter {
   destroy(): void
 }
 
-export { SMTCMonitor, MediaInfo, MediaProps, PlaybackInfo, TimelineProps }
+export { SMTCMonitor, MediaInfo, MediaProps, PlaybackCapabilities, PlaybackInfo, TimelineProps }
