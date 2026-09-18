@@ -6,6 +6,26 @@
 export declare function getCurrentSession(): MediaInfo | null
 export declare function getSessions(): Array<MediaInfo>
 export declare function getSessionById(sourceAppId: string): MediaInfo | null
+export declare function tryPlay(sourceAppId: string): boolean
+export declare function tryPause(sourceAppId: string): boolean
+export declare function trySkipNext(sourceAppId: string): boolean
+export declare function trySkipPrevious(sourceAppId: string): boolean
+export declare function tryChangePlaybackPosition(sourceAppId: string, positionSeconds: number): boolean
+export declare function getCapabilities(sourceAppId: string): PlaybackCapabilities | null
+export interface PlaybackCapabilities {
+  isPlayEnabled: boolean
+  isPauseEnabled: boolean
+  isStopEnabled: boolean
+  isNextEnabled: boolean
+  isPreviousEnabled: boolean
+  isPlaybackPositionEnabled: boolean
+  isFastForwardEnabled: boolean
+  isRewindEnabled: boolean
+  isPlayPauseToggleEnabled: boolean
+  isPlaybackRateEnabled: boolean
+  isShuffleEnabled: boolean
+  isRepeatEnabled: boolean
+}
 export interface MediaPropsCallbackData {
   sourceAppId: string
   mediaProps: MediaProps

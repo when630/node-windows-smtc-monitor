@@ -310,9 +310,15 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { getCurrentSession, getSessions, getSessionById, SMTCMonitor } = nativeBinding
+const { getCurrentSession, getSessions, getSessionById, tryPlay, tryPause, trySkipNext, trySkipPrevious, tryChangePlaybackPosition, getCapabilities, SMTCMonitor } = nativeBinding
 
 module.exports.getCurrentSession = getCurrentSession
 module.exports.getSessions = getSessions
 module.exports.getSessionById = getSessionById
+module.exports.tryPlay = tryPlay
+module.exports.tryPause = tryPause
+module.exports.trySkipNext = trySkipNext
+module.exports.trySkipPrevious = trySkipPrevious
+module.exports.tryChangePlaybackPosition = tryChangePlaybackPosition
+module.exports.getCapabilities = getCapabilities
 module.exports.SMTCMonitor = SMTCMonitor
