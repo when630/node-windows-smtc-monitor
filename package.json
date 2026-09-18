@@ -1,7 +1,7 @@
 {
   "name": "@coooookies/windows-smtc-monitor",
-  "description": "Fetch Windows SMTC media player information and listen for media control events (e.g., play, pause, skip). Suitable for Windows 1809 and later.",
-  "version": "1.0.12",
+  "description": "Fetch Windows SMTC media player information, listen for media control events, and control a session you name (play, pause, next, previous, absolute seek). Fork of @coooookies/windows-smtc-monitor. Suitable for Windows 1809 and later.",
+  "version": "1.1.0",
   "main": "index.js",
   "module": "index.mjs",
   "types": "index.d.ts",
@@ -17,6 +17,12 @@
     "email": "admin@mitay.net",
     "url": "https://mitay.net"
   },
+  "contributors": [
+    {
+      "name": "when630",
+      "url": "https://github.com/when630"
+    }
+  ],
   "napi": {
     "name": "windows-smtc-monitor",
     "triples": {
@@ -90,7 +96,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LeagueTavern/node-windows-smtc-monitor.git"
+    "url": "git+https://github.com/when630/node-windows-smtc-monitor.git"
   },
   "packageManager": "yarn@3.8.5"
 }

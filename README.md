@@ -12,6 +12,12 @@
 
 English | [简体中文](./README_CN.md)
 
+## 🍴 About this fork
+
+This is [when630/node-windows-smtc-monitor](https://github.com/when630/node-windows-smtc-monitor), a fork of [LeagueTavern/node-windows-smtc-monitor](https://github.com/LeagueTavern/node-windows-smtc-monitor). Upstream reads SMTC sessions; this fork adds **session-targeted transport controls** — see [Controlling a session](#controlling-a-session). It exists for [WHENMUSIC](https://github.com/when630/whenmusic), which needs to seek a specific player, something the media keys cannot do.
+
+It is **not published to npm.** Download the prebuilt binary for your architecture from [Releases](https://github.com/when630/node-windows-smtc-monitor/releases). MIT, same as upstream; the original author's notice is kept intact.
+
 ## ⚠️ Warning
 
 `node-windows-smtc-monitor` only supports Windows 10 1809 and later versions (>= 10.0.17763)
@@ -26,8 +32,16 @@ English | [简体中文](./README_CN.md)
 
 ## Installation
 
+Upstream, from npm:
+
 ```shell
 npm i @coooookies/windows-smtc-monitor
+```
+
+This fork, from [Releases](https://github.com/when630/node-windows-smtc-monitor/releases) — take the `.node` for your architecture (`win32-x64-msvc`, `win32-ia32-msvc` or `win32-arm64-msvc`), drop it next to your code and `require` it directly:
+
+```Javascript
+const smtc = require('./windows-smtc-monitor.win32-x64-msvc.node');
 ```
 
 ## 🍊 Example
